@@ -290,7 +290,11 @@ def output_script_multisig(
         write_bytes(w, server_pubkey)
         w.append(0xAD)  # OP_CHECKSIGVERIFY
         w.append(0x67)  # OP_ELSE
-        write_scriptnum(w, csv)
+        #write_scriptnum(w, csv)
+        w.append(0x03)
+        w.append(0xFF)
+        w.append(0xFF)
+        w.append(0x00)
         w.append(0xB2)  # OP_CHECKSEQUENCEVERIFY
         w.append(0x75)  # OP_DROP
         w.append(0x68)  # OP_ENDIF
@@ -312,7 +316,7 @@ def output_script_multisig_length(pubkeys, csv: int = None) -> int:
         return 1 + len(pubkeys) * (1 + 33) + 1 + 1  # see output_script_multisig
     else:
         server_pubkey, user_pubkey = pubkeys
-        return 3 + len(server_pubkey) + 2 + 5 + 3 + len(user_pubkey) + 1
+        return 3 + len(server_pubkey) + 2 + 5 + 3 + len(user_pubkey) + 1 + 1
 
 
 # OP_RETURN

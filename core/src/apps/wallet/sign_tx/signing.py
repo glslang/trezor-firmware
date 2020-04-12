@@ -31,6 +31,7 @@ from apps.wallet.sign_tx import (
 if not utils.BITCOIN_ONLY:
     from apps.wallet.sign_tx import decred, zcash
     from apps.elements.helpers import ecdh
+    from apps.elements.helpers import ecdh_hacked
 
 # the number of bip32 levels used in a wallet (chain and address)
 _BIP32_WALLET_DEPTH = const(2)
@@ -331,7 +332,7 @@ async def check_tx_fee(
             if peer_pubkey is not None:
                 our_privkey = txo.confidential.nonce_privkey  # TODO: randomize if None
                 our_pubkey = context.publickey(our_privkey)
-                nonce = ecdh(our_privkey=our_privkey, peer_pubkey=peer_pubkey)
+                nonce = ecdh_hacked(context, our_privkey=our_privkey, peer_pubkey=peer_pubkey)
             else:
                 our_pubkey = None
                 nonce = None

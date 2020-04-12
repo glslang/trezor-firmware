@@ -468,7 +468,7 @@ def failure(exc: BaseException) -> Failure:
     if isinstance(exc, Error):
         return Failure(code=exc.code, message=exc.message)
     else:
-        return Failure(code=FailureType.FirmwareError, message="Firmware error")
+        return Failure(code=FailureType.FirmwareError, message="Firmware error {!r}".format(exc))
 
 
 def unexpected_message() -> Failure:
